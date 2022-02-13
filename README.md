@@ -53,6 +53,7 @@ TO RUN THE APPLICATION:
       - add string spring.mvc.pathmatch.matching-strategy = ANT_PATH_MATCHER
 
       application-properties example:
+      
         spring.datasource.driver-class-name=org.postgresql.Driver
         spring.datasource.username=username
         spring.datasource.password=password
