@@ -24,6 +24,12 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    /**
+     * Getting a task by id
+     * @param projectId - id of the project in which we get the task
+     * @param taskId - task id
+     * @return response "OK" with task if data exists, otherwise "notFound"
+     */
     @GetMapping("/{taskId}")
     public ResponseEntity<Task> findById(@PathVariable(value = "projectId") long projectId,
                                          @PathVariable(value = "taskId") long taskId) {
@@ -34,6 +40,12 @@ public class TaskController {
         return  ResponseEntity.notFound().build();
     }
 
+    /**
+     * Getting a list of tasks for project
+     * @param projectId - id of the project in which we get the tasks
+     * @param ucb - inline path from call(inserted automatically)
+     * @return list of response with task and location
+     */
     @GetMapping()
     public List<ResponseEntity<Task>> findAll(@PathVariable(value = "projectId") long projectId, UriComponentsBuilder ucb){
         List<ResponseEntity<Task>> responseEntityList = new ArrayList<>();
@@ -46,6 +58,13 @@ public class TaskController {
         return responseEntityList;
     }
 
+    /**
+     * Task creation
+     * @param projectId - id of the project in which we create the task
+     * @param task - object data
+     * @param ucb - inline path from call(inserted automatically)
+     * @return response "CREATED" with project and location if created, otherwise response "NOT_IMPLEMENTED"
+     */
     @PostMapping()
     public ResponseEntity<Task> create(@PathVariable(value = "projectId") long projectId,
                                        @Validated @RequestBody Task task,
@@ -60,6 +79,15 @@ public class TaskController {
         return responseBuilderWithLocationEntity(taskCreate, projectId, httpStatus, ucbToString(ucb));
     }
 
+    /**
+     * Change task data if exists, otherwise create data
+     * @param task - object data
+     * @param projectId - id of the project in which we change the task
+     * @param id - task id to change
+     * @param ucb - inline path from call(inserted automatically)
+     * @return response "CREATED" with task and location if new data exists,
+     * otherwise "OK" with project and location if data updated
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Task> update(@Validated @RequestBody Task task,
                                        @PathVariable(value = "projectId") long projectId,
@@ -78,6 +106,12 @@ public class TaskController {
         return responseBuilderWithLocationEntity(taskUpdated, projectId, httpStatus, ucbToString(ucb));
     }
 
+    /**
+     * Deleting a task
+     * @param projectId - id of the project in which we delete the task
+     * @param taskId - id of the task to be deleted
+     * @return response "OK" with task and location deleted data, otherwise response "NOTFOUND"
+     */
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Task> delete(@PathVariable(value = "projectId") long projectId,
                                        @PathVariable(value = "taskId") Long taskId) {
@@ -85,6 +119,14 @@ public class TaskController {
         return task != null ? ResponseEntity.ok(task) : ResponseEntity.notFound().build();
     }
 
+    /**
+     * Response Builder
+     * @param task - object data
+     * @param projectId - id project
+     * @param httpStatus - response status
+     * @param url - inline path from call
+     * @return response with task and location
+     */
     private ResponseEntity<Task> responseBuilderWithLocationEntity(Task task, long projectId, HttpStatus httpStatus, String url) {
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -94,6 +136,11 @@ public class TaskController {
         return new ResponseEntity<>(task, headers, httpStatus);
     }
 
+    /**
+     * Transformation UriComponentsBuilder to String format
+     * @param ucb - main inline path from call
+     * @return string
+     */
     private String ucbToString(UriComponentsBuilder ucb){
         return ucb.build().toString();
     }
