@@ -75,3 +75,57 @@ TO RUN THE APPLICATION:
 You can start project this way :
   mvn clean package spring-boot:repackage
   java -jar %Path for project%\target\AkvelonTest-0.0.1-SNAPSHOT.jar  
+  
+SUPPORTED COMMANDS:
+
+  - GET
+  	-	%host%/api/project/						- get info about all projects
+    -	%host%/api/project/{id}					- get info about project with {id}
+    -	%host%/api/project/{id}/task/			- get info about all task in project with {id}
+    -	%host%/api/project/{id}/task/{taskId}	- get info about task with {taskId} for project {id}
+      
+  - POST
+ 	- %host%/api/project/- add project
+ 		- ncoming JSON sample:
+ 			- {
+  "name": "project",
+  "startDate": "2021-01-24T08:00:00.000+00:00",
+  "finishDate": "2022-02-10T16:00:00.000+00:00",
+  "status": "Active",
+  "priority": 5
+}	 
+  	- %host%/api/project/{id}/task/	- add task, where {id} - id project 
+  		- incoming JSON sample:
+  			- {
+          "description": "description",
+          "name": "name",
+          "priority": 52,
+          "projectId": 1,
+          "status": "Done"
+        }
+        
+  - PUT
+  	- %host%/api/project/{id}               - add/change project
+  		- incoming JSON sample:
+  			- {
+          "name": "project",
+          "startDate": "2021-01-24T08:00:00.000+00:00",
+          "finishDate": "2022-02-10T16:00:00.000+00:00",
+          "status": "Active",
+          "priority": 5
+        } 
+  	- %host%/api/project/{id}/task/{taskId} - add/change task
+  		-  incoming JSON sample:
+  			- {
+          "description": "description",
+          "name": "name",
+          "priority": 52,
+          "projectId": 1,
+          "status": "Done"
+        }    
+        
+  - DELETE
+  	- %host%/api/project/                   - delete all projects and all tasks in them
+  	- %host%/api/project/{id}               - delete project with {id} and all tasks in it
+  	- %host%/api/project/{id}/task/         - delete all task in project with {id}
+  	- %host%/api/project/{id}/task/{taskId} - delete task {taskID} in project with {id}
