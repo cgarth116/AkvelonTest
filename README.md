@@ -35,6 +35,7 @@ A "Task" is an instance that contains the fields:
   3. Description of tasks
   4. Status(enum: ToDo / InProgress / Done)
   5. Priority
+  6. projectId
   
 Each task is part of only one project.
 
